@@ -1,0 +1,25 @@
+import api from "./api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+// Appelle POST /api/auth/login, sauvegarde le token JWT reçu, renvoie l'utilisateur
+export async function loginRequest(email, password) {
+  const response = await api.post("/auth/login", { email, password });
+  const { token, user } = response.data;
+  await AsyncStorage.setItem("token", token);
+  return user;
+}
+
+// Appelle POST /api/auth/signup, sauvegarde le token JWT reçu (connexion automatique), renvoie l'utilisateur
+export async function signupRequest(name, email, password) {
+  const response = await api.post("/auth/signup", { name, email, password });
+  const { token, user } = response.data;
+  if (token) {
+    await AsyncStorage.setItem("token", token);
+  }
+  return user;
+}
+
+// Supprime le token local (déconnexion)
+export async function logoutRequest() {
+  await AsyncStorage.removeItem("token");
+}

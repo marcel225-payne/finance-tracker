@@ -41,7 +41,7 @@ exports.login = async (req, res) => {
   }
 };
 
-// Étape 1 : génère un code à 6 chiffres, l'enregistre avec une expiration de 10 min, et l'envoie par email
+//  génère un code à 6 chiffres, l'enregistre avec une expiration de 10 min, et l'envoie par email
 exports.forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;

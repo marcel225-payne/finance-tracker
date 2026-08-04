@@ -98,6 +98,13 @@ export default function LoginScreen({ navigation }) {
             loading={loading}
             style={{ marginTop: spacing.sm }}
           />
+              {/* Lien vers le flux de récupération de mot de passe */}
+          <Pressable onPress={() => navigation.navigate("ForgotPassword")} style={styles.forgotRow}>
+            <Text style={styles.link}>Mot de passe oublié ?</Text>
+          </Pressable>
+ 
+          {/* Affichage d'erreur */}
+          {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
           {/* Lien d'inscription */}
           <View style={styles.footer}>

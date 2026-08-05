@@ -7,6 +7,7 @@ import {
   Platform,
   ScrollView,
   Pressable,
+  Image,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFinance } from "@/context/FinanceContext";
@@ -24,7 +25,7 @@ export default function LoginScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // 🆕 Validation et soumission — appel réel au backend via signIn (async)
+  // Validation et soumission — appel réel au backend via signIn (async)
   const handleSubmit = async () => {
     if (!email.trim() || !password.trim()) {
       setError("Veuillez remplir tous les champs.");
@@ -39,7 +40,7 @@ export default function LoginScreen({ navigation }) {
       // Pas besoin de naviguer manuellement : RootNavigator bascule automatiquement
       // vers "Main" dès que `user` est défini dans le contexte
     } catch (err) {
-      // 🆕 Affiche le message d'erreur renvoyé par le backend (ex: "Mot de passe incorrect")
+      // Affiche le message d'erreur renvoyé par le backend (ex: "Mot de passe incorrect")
       setError(err.response?.data?.error || "Email ou mot de passe incorrect.");
     } finally {
       setLoading(false);
@@ -62,11 +63,18 @@ export default function LoginScreen({ navigation }) {
           contentContainerStyle={styles.scroll}
           keyboardShouldPersistTaps="handled"
         >
-          {/* Titre & Sous-titre */}
-          <Text style={typography.h1}>Finance Tracker</Text>
-          <Text style={styles.subtitle}>
-            Suivez vos revenus et dépenses simplement
-          </Text>
+          {/* Logo + titre + sous-titre regroupés dans un bloc centré */}
+          <View style={styles.header}>
+            <Image
+              source={require("../../assets/logo.png")}
+              style={styles.logo}
+              resizeMode="contain"
+            />
+            <Text style={[typography.h1, styles.title]}>Finance Tracker</Text>
+            <Text style={styles.subtitle}>
+              Suivez vos revenus et dépenses simplement
+            </Text>
+          </View>
 
           {/* Formulaire */}
           <View style={{ marginTop: spacing.xl }}>
@@ -76,7 +84,7 @@ export default function LoginScreen({ navigation }) {
               value={email}
               onChangeText={handleChange(setEmail)}
               keyboardType="email-address"
-              autoCapitalize="none" // Empêche la majuscule automatique sur l'email
+              autoCapitalize="none"
               autoCorrect={false}
             />
             <TextField
@@ -102,9 +110,6 @@ export default function LoginScreen({ navigation }) {
           <Pressable onPress={() => navigation.navigate("ForgotPassword")} style={styles.forgotRow}>
             <Text style={styles.link}>Mot de passe oublié ?</Text>
           </Pressable>
- 
-          {/* Affichage d'erreur */}
-          {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
           {/* Lien d'inscription */}
           <View style={styles.footer}>
@@ -122,15 +127,32 @@ export default function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
   scroll: { flexGrow: 1, padding: spacing.lg, justifyContent: "center" },
+  // 🆕 CES DEUX STYLES MANQUAIENT — c'était le bug
+  header: {
+    alignItems: "center",
+  },
+  title: {
+    textAlign: "center",
+  },
   subtitle: {
     fontSize: 14,
     color: colors.textSecondary,
     marginTop: spacing.xs,
+    textAlign: "center",
+  },
+  logo: {
+    width: 200,
+    height: 200,
+    marginBottom: spacing.sm,
   },
   errorText: {
-    color: colors.danger, // Utilise la couleur issue de ton thème
+    color: colors.danger,
     fontSize: 13,
     marginTop: spacing.sm,
+  },
+  forgotRow: {
+    alignItems: "center", // centré au lieu de "flex-end" (aligné à droite)
+    marginTop: spacing.xs,
   },
   footer: {
     flexDirection: "row",

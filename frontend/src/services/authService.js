@@ -23,20 +23,15 @@ export async function signupRequest(name, email, password) {
 export async function logoutRequest() {
   await AsyncStorage.removeItem("token");
 }
-// demande l'envoi d'un code de vérification par email
-export async function forgotPasswordRequest(email) {
-  const response = await api.post("/auth/forgot-password", { email });
+
+// 🆕 Étape 1 (simplifiée) : vérifie si l'email existe en base
+export async function checkEmailRequest(email) {
+  const response = await api.post("/auth/check-email", { email });
   return response.data;
 }
- 
-//  vérifie le code saisi, renvoie un resetToken temporaire si valide
-export async function verifyResetCodeRequest(email, code) {
-  const response = await api.post("/auth/verify-reset-code", { email, code });
-  return response.data; // { resetToken }
-}
- 
-// envoie le nouveau mot de passe avec le resetToken pour finaliser la réinitialisation
-export async function resetPasswordRequest(resetToken, newPassword) {
-  const response = await api.post("/auth/reset-password", { resetToken, newPassword });
+
+// 🆕 Étape 2 (simplifiée) : change directement le mot de passe
+export async function resetPasswordRequest(email, newPassword) {
+  const response = await api.post("/auth/reset-password", { email, newPassword });
   return response.data;
 }

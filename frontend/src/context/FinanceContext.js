@@ -1,19 +1,19 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
-import { loginRequest, signupRequest, logoutRequest } from "@/services/authService";
+import { loginRequest, signupRequest, logoutRequest } from "../services/authService";
 import {
   fetchCategories,
   createCategoryRequest,
   updateCategoryBudgetRequest,
   deleteCategoryBudgetRequest,
   deleteCategoryRequest,
-} from "@/services/categoryService";
+} from "../services/categoryService";
 import {
   fetchTransactions,
   createTransactionRequest,
   deleteTransactionRequest,
-} from "@/services/transactionService";
+} from "../services/transactionService";
 
 // Création du contexte React (valeur par défaut null, sera remplie par le Provider)
 const FinanceContext = createContext(null);
@@ -28,7 +28,7 @@ function uid() {
   return Math.random().toString(36).slice(2, 10);
 }
 
-// Convertit une catégorie reçue du backend au format attendu par le frontend
+// 🆕 Convertit une catégorie reçue du backend au format attendu par le frontend
 function mapCategoryFromApi(c) {
   return {
     id: c.id,
@@ -41,7 +41,7 @@ function mapCategoryFromApi(c) {
   };
 }
 
-// Convertit une transaction reçue du backend au format attendu par le frontend
+// 🆕 Convertit une transaction reçue du backend au format attendu par le frontend
 // (le backend renvoie "CategoryId", le frontend attend "categoryId")
 function mapTransactionFromApi(t) {
   return {
@@ -61,10 +61,12 @@ export function FinanceProvider({ children }) {
   const [notifications, setNotifications] = useState([]);
   // hydrated : évite d'agir avant que la session précédente ait fini d'être vérifiée
   const [hydrated, setHydrated] = useState(false);
-  // dataLoading : true pendant qu'on récupère les catégories/transactions depuis le backend
+  // 🆕 dataLoading : true pendant qu'on récupère les catégories/transactions depuis le backend
   const [dataLoading, setDataLoading] = useState(false);
+  // 🆕 Vrai juste après une connexion réussie — permet d'afficher un message de bienvenue une seule fois
+  const [justLoggedIn, setJustLoggedIn] = useState(false);
 
-  // Charge les catégories + transactions de l'utilisateur connecté DEPUIS LE BACKEND
+  // 🆕 Charge les catégories + transactions de l'utilisateur connecté DEPUIS LE BACKEND
   const loadUserData = async () => {
     setDataLoading(true);
     try {
@@ -143,9 +145,13 @@ export function FinanceProvider({ children }) {
   const signIn = async ({ email, password }) => {
     const loggedUser = await loginRequest(email, password);
     setUser(loggedUser);
+    setJustLoggedIn(true); // 🆕 déclenche la fenêtre de bienvenue sur le Dashboard
     await Promise.all([loadUserData(), loadUserNotifications(loggedUser.id)]);
     return loggedUser;
   };
+
+  // 🆕 Réinitialise l'indicateur — appelé par le Dashboard une fois la fenêtre affichée
+  const clearJustLoggedIn = () => setJustLoggedIn(false);
 
   // Déconnexion : supprime le token JWT stocké localement et vide l'affichage
   const signOut = async () => {
@@ -156,7 +162,7 @@ export function FinanceProvider({ children }) {
     setNotifications([]);
   };
 
-  // Recharge catégories + transactions DEPUIS LE BACKEND et renvoie les données fraîches
+  // 🆕 Recharge catégories + transactions DEPUIS LE BACKEND et renvoie les données fraîches
   // (utile quand un écran a besoin d'être certain d'avoir les toutes dernières données,
   // par exemple juste avant un export CSV, plutôt que de se fier à ce qui est déjà en mémoire)
   const refreshData = async () => {
@@ -199,7 +205,7 @@ export function FinanceProvider({ children }) {
     setNotifications([]);
   };
 
-  // Ajoute une catégorie — appelle le backend, puis met à jour l'état local avec la réponse serveur
+  // 🆕 Ajoute une catégorie — appelle le backend, puis met à jour l'état local avec la réponse serveur
   const addCategory = async (category) => {
     try {
       const created = await createCategoryRequest(category);
@@ -217,7 +223,7 @@ export function FinanceProvider({ children }) {
     }
   };
 
-  // Supprime une catégorie — appelle le backend (qui supprime aussi ses transactions), puis met à jour l'état local
+  // 🆕 Supprime une catégorie — appelle le backend (qui supprime aussi ses transactions), puis met à jour l'état local
   const deleteCategory = async (categoryId) => {
     const cat = categories.find((c) => c.id === categoryId);
     try {
@@ -234,7 +240,7 @@ export function FinanceProvider({ children }) {
     }
   };
 
-  // Ajoute une transaction — appelle le backend, puis met à jour l'état local avec la réponse serveur
+  // 🆕 Ajoute une transaction — appelle le backend, puis met à jour l'état local avec la réponse serveur
   const addTransaction = async (transaction) => {
     try {
       const created = await createTransactionRequest(transaction);
@@ -253,7 +259,7 @@ export function FinanceProvider({ children }) {
     }
   };
 
-  // Supprime une transaction — appelle le backend, puis met à jour l'état local
+  // 🆕 Supprime une transaction — appelle le backend, puis met à jour l'état local
   const deleteTransaction = async (transactionId) => {
     const t = transactions.find((tr) => tr.id === transactionId);
     try {
@@ -269,7 +275,7 @@ export function FinanceProvider({ children }) {
     }
   };
 
-  // Crée ou modifie le budget d'une catégorie — appelle le backend, puis met à jour l'état local
+  // 🆕 Crée ou modifie le budget d'une catégorie — appelle le backend, puis met à jour l'état local
   const setCategoryBudget = async (categoryId, budget, threshold) => {
     const cat = categories.find((c) => c.id === categoryId);
     const isUpdate = !!(cat && cat.budget);
@@ -285,11 +291,11 @@ export function FinanceProvider({ children }) {
       });
     } catch (err) {
       Alert.alert("Erreur", "Impossible d'enregistrer le budget. Vérifie ta connexion.");
-      throw err; // relance l'erreur pour que l'écran appelant (AddBudgetScreen) reste sur place
+      throw err; // 🆕 relance l'erreur pour que l'écran appelant (AddBudgetScreen) reste sur place
     }
   };
 
-  // Retire le budget d'une catégorie — appelle le backend, puis met à jour l'état local
+  // 🆕 Retire le budget d'une catégorie — appelle le backend, puis met à jour l'état local
   const deleteBudget = async (categoryId) => {
     const cat = categories.find((c) => c.id === categoryId);
     try {
@@ -393,7 +399,9 @@ export function FinanceProvider({ children }) {
     getCategoryById,
     monthTransactions,
     dataLoading,
-    refreshData, //
+    refreshData,
+    justLoggedIn, // 🆕
+    clearJustLoggedIn, // 🆕
     notifications,
     markNotificationAsRead,
     markAllNotificationsAsRead,

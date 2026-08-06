@@ -5,13 +5,14 @@ import { Ionicons } from "@expo/vector-icons";
 import TextField from "@/components/TextField";
 import Button from "@/components/Button";
 import { colors, spacing, typography } from "@/constants/theme";
-import { forgotPasswordRequest } from "@/services/authService";
+import { checkEmailRequest } from "@/services/authService";
 
 export default function ForgotPasswordScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // Vérifie juste si l'email existe, puis va directement au formulaire de nouveau mot de passe
   const handleSubmit = async () => {
     if (!email.trim()) {
       setError("Merci de renseigner ton email.");
@@ -20,10 +21,8 @@ export default function ForgotPasswordScreen({ navigation }) {
     setError("");
     setLoading(true);
     try {
-      await forgotPasswordRequest(email.trim().toLowerCase());
-      // On avance à l'écran de vérification quoi qu'il arrive (le backend ne révèle jamais
-      // si l'email existe ou non, pour des raisons de sécurité)
-      navigation.navigate("VerifyResetCode", { email: email.trim().toLowerCase() });
+      await checkEmailRequest(email.trim().toLowerCase());
+      navigation.navigate("ResetPassword", { email: email.trim().toLowerCase() });
     } catch (err) {
       setError(err.response?.data?.error || "Une erreur est survenue. Réessaie.");
     } finally {
@@ -41,7 +40,7 @@ export default function ForgotPasswordScreen({ navigation }) {
 
           <Text style={typography.h1}>Mot de passe oublié</Text>
           <Text style={styles.subtitle}>
-            Indique ton email, on t'envoie un code de vérification pour réinitialiser ton mot de passe.
+            Indique l'email de ton compte pour définir un nouveau mot de passe.
           </Text>
 
           <View style={{ marginTop: spacing.xl }}>
@@ -61,7 +60,7 @@ export default function ForgotPasswordScreen({ navigation }) {
 
           {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
-          <Button title="Envoyer le code" onPress={handleSubmit} loading={loading} style={{ marginTop: spacing.sm }} />
+          <Button title="Continuer" onPress={handleSubmit} loading={loading} style={{ marginTop: spacing.sm }} />
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>

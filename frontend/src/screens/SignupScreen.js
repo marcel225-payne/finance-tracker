@@ -99,7 +99,7 @@ export default function SignupScreen({ navigation }) {
 
           {/* Champs de saisie du formulaire */}
           <View style={{ marginTop: spacing.lg }}>
-            <TextField label="Nom complet" placeholder="Marcel Thio" value={name} 
+            <TextField label="Nom complet" placeholder="Votre nom" value={name} 
             onChangeText={setName} autoCapitalize="words" />
             <TextField label="Email" placeholder="vous@exemple.com" value={email} 
             onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" autoCorrect={false} />

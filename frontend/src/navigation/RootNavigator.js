@@ -23,7 +23,7 @@ export default function RootNavigator() {
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Signup" component={SignupScreen} />
           <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
-          {/* 🆕 VerifyResetCode retiré — plus de code à vérifier dans la version simplifiée */}
+          {/* VerifyResetCode retiré — plus de code à vérifier dans la version simplifiée */}
           <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
         </Stack.Group>
       ) : (

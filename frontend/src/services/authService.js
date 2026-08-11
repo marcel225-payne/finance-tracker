@@ -24,13 +24,13 @@ export async function logoutRequest() {
   await AsyncStorage.removeItem("token");
 }
 
-// 🆕 Étape 1 (simplifiée) : vérifie si l'email existe en base
+//Étape 1 (simplifiée) : vérifie si l'email existe en base
 export async function checkEmailRequest(email) {
   const response = await api.post("/auth/check-email", { email });
   return response.data;
 }
 
-// 🆕 Étape 2 (simplifiée) : change directement le mot de passe
+// Étape 2 (simplifiée) : change directement le mot de passe
 export async function resetPasswordRequest(email, newPassword) {
   const response = await api.post("/auth/reset-password", { email, newPassword });
   return response.data;

@@ -2,11 +2,11 @@ import React from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-import DashboardScreen from "../screens/DashboardScreen";
-import TransactionsScreen from "../screens/TransactionsScreen";
-import BudgetScreen from "../screens/BudgetScreen";
-import ProfileScreen from "../screens/ProfileScreen";
-import { useFinance } from "../context/FinanceContext";
+import DashboardScreen from "@/screens/DashboardScreen";
+import TransactionsScreen from "@/screens/TransactionsScreen";
+import BudgetScreen from "@/screens/BudgetScreen";
+import ProfileScreen from "@/screens/ProfileScreen";
+import { useFinance } from "@/context/FinanceContext";
 import { colors } from "@/constants/theme";
 
 const Tab = createBottomTabNavigator();

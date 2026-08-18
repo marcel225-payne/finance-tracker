@@ -21,14 +21,14 @@ export default function CategoryChip({ label, selected, onPress, accent = colors
 
 const styles = StyleSheet.create({
   chip: {
-    // 🆕 Empêche le chip de s'étirer verticalement dans une rangée horizontale
+    // Empêche le chip de s'étirer verticalement dans une rangée horizontale
     // (c'était la cause de la forme ovale/circulaire)
     alignSelf: "flex-start",
     flexShrink: 0,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 8, // 🆕 légèrement réduit pour une pilule plus fine
+    paddingVertical: 8, // légèrement réduit pour une pilule plus fine
     paddingHorizontal: 16,
     borderRadius: radius.pill,
     backgroundColor: colors.chipBg,

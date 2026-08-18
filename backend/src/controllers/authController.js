@@ -25,7 +25,10 @@ exports.signup = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({
+      where: { email },
+      attributes: { include: ['password'] } // force la récupération du mot de passe, même s'il est exclu par défaut
+    });
     if (!user) return res.status(404).json({ error: 'Utilisateur non trouvé' });
 
     const valid = await bcrypt.compare(password, user.password);
@@ -34,6 +37,7 @@ exports.login = async (req, res) => {
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '7d' });
     res.json({ token, user: { id: user.id, name: user.name, email: user.email } });
   } catch (err) {
+    console.error('Erreur login:', err);
     res.status(500).json({ error: err.message });
   }
 };

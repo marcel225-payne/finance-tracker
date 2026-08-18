@@ -7,7 +7,10 @@ const notificationRoutes = require('@/routes/notificationRoutes'); // 🆕
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173', // l'URL de ton frontend en dev (Vite)
+  credentials: true,
+}))
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);

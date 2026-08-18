@@ -127,7 +127,7 @@ export default function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
   scroll: { flexGrow: 1, padding: spacing.lg, justifyContent: "center" },
-  // 🆕 CES DEUX STYLES MANQUAIENT — c'était le bug
+
   header: {
     alignItems: "center",
   },

@@ -27,6 +27,7 @@ exports.createTransaction = async (req, res) => {
     });
     res.status(201).json(transaction);
   } catch (err) {
+     console.error('Erreur création transaction:', err);
     res.status(400).json({ error: err.message });
   }
 };
@@ -43,4 +44,17 @@ exports.deleteTransaction = async (req, res) => {
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
+  exports.updateTransaction = async (req, res) => {
+  try {
+    const transaction = await Transaction.findOne({ where: { id: req.params.id, UserId: req.userId } });
+    if (!transaction) return res.status(404).json({ error: 'Transaction non trouvée' });
+
+    const { amount, type, description, date, categoryId } = req.body;
+    await transaction.update({ amount, type, description, date, CategoryId: categoryId });
+    res.json(transaction);
+  } catch (err) {
+    console.error('Erreur création transaction:', err);
+    res.status(400).json({ error: err.message });
+  }
+};
 };

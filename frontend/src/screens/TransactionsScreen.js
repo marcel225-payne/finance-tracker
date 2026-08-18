@@ -236,9 +236,7 @@ export default function TransactionsScreen({ navigation }) {
       {/* En-tête : titre + lien d'export */}
       <View style={styles.header}>
         <Text style={styles.title}>Transactions</Text>
-        <Pressable onPress={handleExportCSV} disabled={exporting}>
-          <Text style={styles.exportLink}>{exporting ? "Export en cours..." : "Exporter CSV"}</Text>
-        </Pressable>
+        
       </View>
 
       {/* Ligne de filtres "période" — scroll horizontal, une chip par période */}

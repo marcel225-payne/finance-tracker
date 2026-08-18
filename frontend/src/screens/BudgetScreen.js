@@ -7,11 +7,11 @@ import ProgressBar from "@/components/ProgressBar";
 import { colors, spacing, radius, formatFCFA } from "@/constants/theme";
 
 export default function BudgetScreen({ navigation }) {
-  // 🆕 deleteBudget ET deleteCategory récupérés depuis le contexte
+  // deleteBudget ET deleteCategory récupérés depuis le contexte
   const { spendingByCategory, deleteBudget, deleteCategory } = useFinance();
   const overBudget = spendingByCategory.filter((c) => c.budget && c.spent > c.budget);
 
-  // 🆕 Propose maintenant un choix : retirer seulement le budget, ou supprimer toute la catégorie
+  // Propose maintenant un choix : retirer seulement le budget, ou supprimer toute la catégorie
   const handleDeleteBudget = (cat) => {
     Alert.alert(
       "Que veux-tu supprimer ?",
@@ -31,7 +31,7 @@ export default function BudgetScreen({ navigation }) {
     );
   };
 
-  // 🆕 Pour une catégorie SANS budget : pas de choix "budget seulement" possible (il n'y en a pas),
+  // Pour une catégorie SANS budget : pas de choix "budget seulement" possible (il n'y en a pas),
   // donc simple confirmation avant suppression de la catégorie entière
   const handleDeleteCategoryOnly = (cat) => {
     Alert.alert(
@@ -82,7 +82,7 @@ export default function BudgetScreen({ navigation }) {
                   <Text style={styles.catAmount}>
                     {formatFCFA(cat.spent).replace(" FCFA", "")} / {cat.budget ? formatFCFA(cat.budget).replace(" FCFA", "") : "—"}
                   </Text>
-                  {/* 🆕 Avec budget : crayon + poubelle (choix budget/catégorie). Sans budget : juste poubelle (supprime la catégorie) */}
+                  {/* Avec budget : crayon + poubelle (choix budget/catégorie). Sans budget : juste poubelle (supprime la catégorie) */}
                   {cat.budget ? (
                     <>
                       <Pressable

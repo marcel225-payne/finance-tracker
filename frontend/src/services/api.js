@@ -6,7 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // - Simulateur iOS : http://localhost:5000
 //const API_URL = "http://192.168.1.64:5000/api";
 //const API_URL = "http://192.168.1.66:5000/api";
-const API_URL = "http://192.168.1.72:5000/api";
+const API_URL = "http://192.168.2.33:5000/api";
 //const API_URL = "http://10.0.20.69:5000/api";
 const api = axios.create({
   baseURL: API_URL,

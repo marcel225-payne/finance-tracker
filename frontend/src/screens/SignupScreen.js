@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView, Pressable, KeyboardAvoidingView, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { useFinance } from "../context/FinanceContext";
-import TextField from "../components/TextField";
-import Button from "../components/Button";
+import { useFinance } from "@/context/FinanceContext";
+import TextField from "@/components/TextField";
+import Button from "@/components/Button";
 import { colors, spacing, typography } from "@/constants/theme";
 
 // Regex : vrai dès que la chaîne contient au moins un chiffre (0-9)

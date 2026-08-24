@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { useFinance } from "../context/FinanceContext";
+import { useFinance } from "@/context/FinanceContext";
 import { colors, spacing, radius } from "@/constants/theme";
 
 function initials(name) {

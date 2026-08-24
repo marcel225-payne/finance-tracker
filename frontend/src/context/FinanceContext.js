@@ -1,19 +1,19 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
-import { loginRequest, signupRequest, logoutRequest } from "../services/authService";
+import { loginRequest, signupRequest, logoutRequest } from "@/services/authService";
 import {
   fetchCategories,
   createCategoryRequest,
   updateCategoryBudgetRequest,
   deleteCategoryBudgetRequest,
   deleteCategoryRequest,
-} from "../services/categoryService";
+} from "@/services/categoryService";
 import {
   fetchTransactions,
   createTransactionRequest,
   deleteTransactionRequest,
-} from "../services/transactionService";
+} from "@/services/transactionService";
 import {
   fetchNotifications,
   createNotificationRequest,
@@ -21,7 +21,7 @@ import {
   markAllNotificationsAsReadRequest,
   deleteNotificationRequest,
   clearAllNotificationsRequest,
-} from "../services/notificationService"; // 🆕
+} from "@/services/notificationService"; // 🆕
 
 const FinanceContext = createContext(null);
 
